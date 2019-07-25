@@ -1,0 +1,37 @@
+- name: Ensuring pkgs for tftp are installed
+  yum:
+    name: ['tftp', 'tftp-server', 'syslinux-tftpboot']
+    state: installed
+
+- name: tftpboot directory structure
+  file:
+    path: "/var/lib/tftpboot/{{ item }}"
+    state: directory
+  with_items:
+    - pxelinux.cfg
+    - EFI
+    - boot
+
+- name: Opening up iptables for tftpd
+  include_role:
+    name: iptables
+    tasks_from: custom-policy
+  vars:
+    iptables_policy_name: tftpd
+    iptables_protocol: udp
+    iptables_port: "69"
+  tags:
+    - iptables
+
+- name: tftpd is started
+  service: 
+    name: tftp
+    state: started
+    enabled: True
+
+- name: Script to fetch kernel/initrd pxe images
+  template:
+    src: pxefetch.j2
+    dest: /usr/local/bin/pxefetch
+    mode: 0750
+

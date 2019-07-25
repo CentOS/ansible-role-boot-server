@@ -1,1 +1,3 @@
 # Defaults meta for role boot-server
+dependencies:
+ - { role: baseline }

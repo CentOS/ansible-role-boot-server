@@ -1,1 +1,20 @@
 # Defaults variables for role boot-server
+# This boot-server role would install necessary pxe services, only if set to True
+
+# Do we want dhcp 
+boot_dhcpd: True
+boot_dhcpd_domain: domain.com
+boot_dhcpd_ns:
+  - 172.16.1.1
+  - 172.16.1.2
+boot_dhcpd_networks:
+  - subnet: 172.16.1.0
+    netmask: 255.255.255.0
+    range: 172.16.1.50 172.16.1.70
+    router: 172.16.1.254
+    boot: 172.16.1.1
+boot_dhcpd_lease_time: 6000
+
+
+# Do we want tftp
+boot_tftpd: True

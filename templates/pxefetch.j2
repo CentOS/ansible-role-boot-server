@@ -1,0 +1,30 @@
+#!/bin/bash
+for release in 6 7;
+do
+  for arch in i386 x86_64; 
+  do
+    for file in vmlinuz initrd.img;
+    do
+     test -d /var/lib/tftpboot/boot/centos/${release}/${arch}/ || mkdir -p /var/lib/tftpboot/boot/centos/${release}/${arch}/
+     pushd /var/lib/tftpboot/boot/centos/${release}/${arch}/ > /dev/null
+     curl --silent -O http://mirror.centos.org/centos/${release}/os/${arch}/images/pxeboot/${file}
+     popd > /dev/null
+    done
+  done
+done
+
+# QA
+for release in 7 8;
+do
+  for arch in x86_64; 
+  do
+    for file in vmlinuz initrd.img;
+    do
+     test -d /var/lib/tftpboot/boot/qa/${release}/${arch}/ || mkdir -p /var/lib/tftpboot/boot/qa/${release}/${arch}/
+     pushd /var/lib/tftpboot/boot/qa/${release}/${arch}/ > /dev/null
+     curl --silent -O http://qa.centos.org/centos/${release}/BaseOS/${arch}/os/images/pxeboot/${file}
+     popd > /dev/null
+    done
+  done
+done
+
