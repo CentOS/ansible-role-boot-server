@@ -12,7 +12,15 @@ boot_dhcpd_networks:
     netmask: 255.255.255.0
     range: 172.16.1.50 172.16.1.70
     router: 172.16.1.254
-    boot: 172.16.1.1
+    pxe_boot: True
+    pxe_server: 172.16.1.1
+    dhcp_client_groups:
+      - ansible-inventory-group1 # This group will be parsed to construct fixed-ip/mac-address association outside of pool/range) , ignored if not declared
+  - subnet: 172.16.2.0
+    netmask: 255.255.255.0
+    range: 172.16.2.50 172.16.2.70
+    router: 172.16.2.254
+
 boot_dhcpd_lease_time: 6000
 
 
@@ -38,3 +46,5 @@ boot_pxe_entries:
     arch: x86_64
     vnc: false
 
+# Do we want to serve files (like kickstarts) over http
+boot_http: True

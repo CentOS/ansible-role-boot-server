@@ -16,3 +16,8 @@
   tags:
     - config
     - cron
+
+- include_tasks: httpd.yml
+  when: boot_http
+  tags:
+    - httpd

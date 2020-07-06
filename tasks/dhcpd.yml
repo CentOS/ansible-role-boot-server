@@ -1,7 +1,7 @@
 # Included tasks for dhcpd
 - name: Installing dhcp pkgs
   yum:
-    name: dhcp
+    name: "{{ dhcp_pkgs }}"
     state: installed
 
 - name: Configuring dhcpd
@@ -9,7 +9,8 @@
     src: dhcpd.conf.j2
     dest: /etc/dhcp/dhcpd.conf
   notify: restart_dhcpd
-
+  tags:
+    - config
 - name: Ensuring dhcpd is enabled and running
   service:
     name: dhcpd

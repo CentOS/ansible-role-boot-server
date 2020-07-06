@@ -1,0 +1,14 @@
+- name: Importing httpd role 
+  import_role: 
+    name: httpd
+
+- name: Ensuring we have a directory to drop kickstart files
+  file:
+    path: /var/www/html/ks
+    state: directory
+
+- name: Configuring local vhost
+  template:
+    src: httpd-boot-vhost.conf.j2
+    dest: /etc/httpd/conf.d/05_boot.conf
+  notify: restart_httpd  
