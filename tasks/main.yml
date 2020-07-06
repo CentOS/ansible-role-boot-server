@@ -1,7 +1,18 @@
 # Defaults tasks for role boot-server
 
+- name: Importing specific distro variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+
 - include_tasks: dhcpd.yml
   when: boot_dhcpd
-  
+  tags:
+    - config
+
 - include_tasks: tftpd.yml
   when: boot_tftpd
+  tags:
+    - config
+    - cron

@@ -1,0 +1,27 @@
+DEFAULT menu
+PROMPT 0
+MENU TITLE PXE Boot Menu
+TIMEOUT 200
+TOTALTIMEOUT 6000
+ONTIMEOUT local
+
+LABEL local
+        MENU LABEL (local)
+        MENU DEFAULT
+        LOCALBOOT 0
+LABEL memtest
+        MENU LABEL memtest
+        kernel memtest
+
+{% for entry in boot_pxe_entries %}
+LABEL {{ entry.dist }}_{{ entry.release }}_{{ entry.arch }}{% if entry.vnc %}_vnc{% endif %} 
+        MENU LABEL {{ entry.dist }} {{ entry.release }} {{ entry.arch }} {% if entry.vnc %}(vnc setup){% endif %} 
+        kernel boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/vmlinuz
+{% if entry.release == 8 or entry.release == '8-stream' %}  
+        append initrd=boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/initrd.img ip=dhcp net.ifnames=0 biosdevname=0 inst.repo=http://mirror.centos.org/centos/{{ entry.release }}/BaseOS/{{ entry.arch }}/os/ inst.lang=en_GB inst.keymap=be-latin1 {% if entry.vnc %}inst.vnc inst.vncpassword={{ boot_pxe_vncpass }}{% endif %} 
+{% else %}
+        append initrd=boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/initrd.img ip=dhcp net.ifnames=0 biosdevname=0 inst.repo=http://mirror.centos.org/centos/{{ entry.release }}/os/{{ entry.arch }}/ inst.lang=en_GB inst.keymap=be-latin1 {% if entry.vnc %}inst.vnc inst.vncpassword={{ boot_pxe_vncpass }}{% endif %} 
+{% endif %}
+
+{% endfor %}
+

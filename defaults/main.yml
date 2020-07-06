@@ -18,3 +18,23 @@ boot_dhcpd_lease_time: 6000
 
 # Do we want tftp
 boot_tftpd: True
+# Default vnc password if we want to start inst.vnc for pxe installs
+boot_pxe_vncpass: laix4eeR
+boot_pxe_entries:
+  - dist: CentOS
+    release: 8
+    arch: x86_64
+    vnc: true
+  - dist: CentOS
+    release: 8
+    arch: x86_64
+    vnc: false
+  - dist: CentOS
+    release: 7
+    arch: x86_64
+    vnc: true
+  - dist: CentOS
+    release: 7
+    arch: x86_64
+    vnc: false
+

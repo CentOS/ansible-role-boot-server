@@ -1,7 +1,15 @@
 - name: Ensuring pkgs for tftp are installed
   yum:
-    name: ['tftp', 'tftp-server', 'syslinux-tftpboot']
+    name: ['tftp', 'tftp-server', 'syslinux-tftpboot', 'syslinux-extlinux']
     state: installed
+  register: tftp_init
+
+- name: Importing tftpboot syslinux files
+  copy:
+    remote_src: yes
+    src: "/tftpboot/"
+    dest: /var/lib/tftpboot/
+  when: tftp_init is changed and ansible_distribution_major_version == '8'
 
 - name: tftpboot directory structure
   file:
@@ -11,6 +19,13 @@
     - pxelinux.cfg
     - EFI
     - boot
+
+- name: pxelinux default menu
+  template:
+    src: templates/pxelinux_default.j2
+    dest: /var/lib/tftpboot/pxelinux.cfg/default
+  tags:
+    - config
 
 - name: Opening up iptables for tftpd
   include_role:
@@ -32,6 +47,13 @@
 - name: Script to fetch kernel/initrd pxe images
   template:
     src: pxefetch.j2
-    dest: /usr/local/bin/pxefetch
+    dest: /usr/libexec/centos/pxefetch
     mode: 0750
 
+- name: Refreshing install artifacts (kernel/initrd)
+  cron:
+    name: refresh pxe artifacts
+    minute: '5'
+    job: /usr/libexec/centos/pxefetch
+  tags:
+    - cron
