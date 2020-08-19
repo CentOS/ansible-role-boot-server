@@ -11,4 +11,5 @@
   template:
     src: httpd-boot-vhost.conf.j2
     dest: /etc/httpd/conf.d/05_boot.conf
+    mode: 0644
   notify: restart_httpd  

@@ -24,6 +24,7 @@
   template:
     src: templates/pxelinux_default.j2
     dest: /var/lib/tftpboot/pxelinux.cfg/default
+    mode: 0644
   tags:
     - config
 
