@@ -1,5 +1,5 @@
 #!/bin/bash
-for release in 6 7 8 8-stream;
+for release in 7 8 8-stream;
 do
   for arch in i386 x86_64 aarch64 ppc64le; 
   do
@@ -18,8 +18,6 @@ do
 				full_path="http://mirror.centos.org/altarch/${release}/os/${arch}/${pxe_path}/${file}"
 			elif [[ "$arch" == "x86_64" ]] && [[ "$release" == "7" ]] ; then
 				full_path="http://mirror.centos.org/centos/${release}/os/${arch}/${pxe_path}/${file}"
-			elif [ "$release" == "6" ] ; then
-				full_path="http://mirror.centos.org/centos/${release}/os/${arch}/${pxe_path}/${file}"   
 			else
 				full_path="http://mirror.centos.org/centos/${release}/BaseOS/${arch}/os/${pxe_path}/${file}"
 			fi

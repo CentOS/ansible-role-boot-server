@@ -50,6 +50,8 @@
     src: pxefetch.j2
     dest: /usr/libexec/centos/pxefetch
     mode: 0750
+  notify:
+    - pxe_fetch_files
 
 - name: Refreshing install artifacts (kernel/initrd)
   cron:

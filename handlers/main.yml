@@ -3,3 +3,6 @@
   service:
     name: dhcpd
     state: restarted
+
+- name: pxe_fetch_files
+  command: /usr/libexec/centos/pxefetch
