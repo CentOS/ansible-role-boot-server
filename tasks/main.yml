@@ -6,16 +6,25 @@
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_distribution }}.yml"
 
+- name: Installing helper tools
+  yum:
+    name: ['ipmitool']
+    state: installed
+  tags:
+    - pkgs
+
 - include_tasks: dhcpd.yml
   when: boot_dhcpd
   tags:
     - config
+    - efi
 
 - include_tasks: tftpd.yml
   when: boot_tftpd
   tags:
     - config
     - cron
+    - efi
 
 - include_tasks: httpd.yml
   when: boot_http

@@ -21,7 +21,7 @@ subnet {{ network.subnet }} netmask {{ network.netmask }} {
     match if substring (option vendor-class-identifier, 0, 9) = "PXEClient";
     next-server {{ network.pxe_server }};
     if option architecture-type = 00:07 {
-      filename "/efi/bootx64.efi";
+      filename "shimx64.efi";
     } else if option architecture-type = 00:0b {
        filename "shimaa64.efi";
     } else {

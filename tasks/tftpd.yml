@@ -17,7 +17,6 @@
     state: directory
   with_items:
     - pxelinux.cfg
-    - EFI
     - boot
 
 - name: pxelinux default menu
@@ -27,6 +26,24 @@
     mode: 0644
   tags:
     - config
+
+- name: pxelinux EFI default menu
+  template:
+    src: templates/grub_default.j2
+    dest: /var/lib/tftpboot/grub.cfg
+    mode: 0644
+  tags:
+    - config
+    - efi
+
+- name: Downloading required EFI boot files
+  get_url:
+    url: "{{ item.source }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items: "{{ boot_pxe_source_files }}"
+  tags:
+    - efi
 
 - name: Opening up iptables for tftpd
   include_role:

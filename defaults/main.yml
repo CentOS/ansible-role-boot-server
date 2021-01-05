@@ -46,5 +46,12 @@ boot_pxe_entries:
     arch: x86_64
     vnc: false
 
+# efi files to download to pxe boot with grub/uefi
+boot_pxe_source_files:
+  - source: http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/EFI/BOOT/BOOTX64.EFI
+    dest: /var/lib/tftpboot/shimx64.efi
+  - source: http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/EFI/BOOT/grubx64.efi
+    dest: /var/lib/tftpboot/grubx64.efi
+
 # Do we want to serve files (like kickstarts) over http
 boot_http: True
