@@ -2,13 +2,18 @@
 set timeout=600
 
 {% for entry in boot_pxe_entries %}
-menuentry '{{ entry.dist }}_{{ entry.release }}_{{ entry.arch }}{% if entry.vnc %}_vnc{% endif %}' {
-	linuxefi boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/vmlinuz ip=dhcp net.ifnames=0 biosdevname=0 inst.repo=http://mirror.centos.org/centos/{{ entry.release }}/BaseOS/{{ entry.arch }}/os/ inst.lang=en_GB inst.keymap=be-latin1 {% if entry.vnc %}inst.vnc inst.vncpassword={{ boot_pxe_vncpass }}{% endif %}
-{% if entry.release == 8 or entry.release == '8-stream' %}  
-	initrdefi boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/initrd.img  
+{% if entry.arch == "aarch64" %}
+{% set kernel_boot = 'linux' %}
+{% set initrd_boot = 'initrd' %}
 {% else %}
-	initrdefi boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/initrd.img ip=dhcp net.ifnames=0 biosdevname=0 inst.repo=http://mirror.centos.org/centos/{{ entry.release }}/os/{{ entry.arch }}/ inst.lang=en_GB inst.keymap=be-latin1 {% if entry.vnc %}inst.vnc inst.vncpassword={{ boot_pxe_vncpass }}{% endif %} 
+{% set kernel_boot = 'linuxefi' %}
+{% set initrd_boot = 'initrdefi' %}
 {% endif %}
+
+menuentry '{{ entry.dist }}_{{ entry.release }}_{{ entry.arch }}{% if entry.vnc %}_vnc{% endif %}' {
+	{{ kernel_boot }} boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/vmlinuz ip=dhcp net.ifnames=0 biosdevname=0 inst.repo=http://mirror.centos.org/centos/{{ entry.release }}/BaseOS/{{ entry.arch }}/os/ inst.lang=en_GB inst.keymap=be-latin1 {% if entry.vnc %}inst.vnc inst.vncpassword={{ boot_pxe_vncpass }}{% endif %}
+  
+  {{ initrd_boot }} boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/initrd.img  
 }
 
 {% endfor %}
