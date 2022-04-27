@@ -17,7 +17,9 @@ LABEL memtest
 LABEL {{ entry.dist }}_{{ entry.release }}_{{ entry.arch }}{% if entry.vnc %}_vnc{% endif %} 
         MENU LABEL {{ entry.dist }} {{ entry.release }} {{ entry.arch }} {% if entry.vnc %}(vnc setup){% endif %} 
         kernel boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/vmlinuz
-{% if entry.release == 8 or entry.release == '8-stream' %}  
+{% if entry.dist|lower == 'rhel' %}
+        append initrd=boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/initrd.img ip=dhcp net.ifnames=0 biosdevname=0 inst.repo={{ rhel_deploy_mirror_url}}/{{ entry.release }}/{{ entry.arch }}/ inst.lang=en_GB inst.keymap=be-latin1 {% if entry.vnc %}inst.vnc inst.vncpassword={{ boot_pxe_vncpass }}{% endif %} 
+{% elif entry.release == 8 or entry.release == '8-stream' %}  
         append initrd=boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/initrd.img ip=dhcp net.ifnames=0 biosdevname=0 inst.repo=http://mirror.centos.org/centos/{{ entry.release }}/BaseOS/{{ entry.arch }}/os/ inst.lang=en_GB inst.keymap=be-latin1 {% if entry.vnc %}inst.vnc inst.vncpassword={{ boot_pxe_vncpass }}{% endif %} 
 {% elif entry.release == '9-stream' %}  
         append initrd=boot/{{ entry.dist | lower}}/{{ entry.release}}/{{ entry.arch }}/initrd.img ip=dhcp net.ifnames=0 biosdevname=0 inst.repo=http://mirror.stream.centos.org/{{ entry.release }}/BaseOS/{{ entry.arch }}/os/ inst.lang=en_GB inst.keymap=be-latin1 {% if entry.vnc %}inst.vnc inst.vncpassword={{ boot_pxe_vncpass }}{% endif %} 

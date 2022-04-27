@@ -26,15 +26,29 @@ boot_dhcpd_lease_time: 6000
 
 # Do we want tftp
 boot_tftpd: True
+
+# Do we want to also support RHEL for pxe boot ? 
+# If so we'll just inherit some needed 'rhel_deploy_mirror_url' variable defined in inventory to fetch files
+# We can then also add RHEL in the boot_pxe_entries list below (through inventory)
+boot_pxe_rhel_support: False
+
 # Default vnc password if we want to start inst.vnc for pxe installs
 boot_pxe_vncpass: laix4eeR
 boot_pxe_entries:
   - dist: CentOS
-    release: 8
+    release: 9-stream
     arch: x86_64
     vnc: true
   - dist: CentOS
-    release: 8
+    release: 9-stream
+    arch: x86_64
+    vnc: false
+  - dist: CentOS
+    release: 8-stream
+    arch: x86_64
+    vnc: true
+  - dist: CentOS
+    release: 8-stream
     arch: x86_64
     vnc: false
   - dist: CentOS
