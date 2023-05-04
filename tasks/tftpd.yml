@@ -9,7 +9,9 @@
     remote_src: yes
     src: "/tftpboot/"
     dest: /var/lib/tftpboot/
-  when: tftp_init is changed and ansible_distribution_major_version == '8'
+  when: 
+    - tftp_init is changed 
+    - ansible_distribution_major_version|int > 7
 
 - name: tftpboot directory structure
   file:

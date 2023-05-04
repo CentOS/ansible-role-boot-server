@@ -1,0 +1,4 @@
+# Variables specific to CentOS 8
+dhcp_pkgs:
+  - dhcp-client
+  - dhcp-server
