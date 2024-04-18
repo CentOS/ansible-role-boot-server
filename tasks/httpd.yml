@@ -1,6 +1,8 @@
 - name: Importing httpd role 
   import_role: 
     name: httpd
+  vars:
+    httpd_public: False
 
 - name: Ensuring we have a directory to drop kickstart files
   file:
