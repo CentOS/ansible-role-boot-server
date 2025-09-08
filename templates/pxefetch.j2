@@ -1,6 +1,6 @@
 #!/bin/bash
 # This part is for CentOS versions and we'll just point to mirror.centos.org to download content
-for release in 7 8 8-stream 9-stream;
+for release in 9-stream 10-stream;
 do
   for arch in i386 x86_64 aarch64 ppc64le; 
   do
@@ -15,15 +15,7 @@ do
         pxe_path="images/pxeboot"
       fi
  
-      if [[ "$arch" != "x86_64" ]] && [[ "$release" == "7" ]] ; then
-	full_path="http://mirror.centos.org/altarch/${release}/os/${arch}/${pxe_path}/${file}"
-      elif [[ "$arch" == "x86_64" ]] && [[ "$release" == "7" ]] ; then
-	full_path="http://mirror.centos.org/centos/${release}/os/${arch}/${pxe_path}/${file}"
-      elif [[ "$release" == "9-stream" ]] ; then
 	full_path="http://mirror.stream.centos.org/${release}/BaseOS/${arch}/os/${pxe_path}/${file}"
-      else
-	full_path="http://mirror.centos.org/centos/${release}/BaseOS/${arch}/os/${pxe_path}/${file}"
-      fi
      curl --silent -O ${full_path}
      popd > /dev/null
     done
@@ -32,7 +24,7 @@ done
 
 {% if boot_pxe_rhel_support %}
 # This part is included only if we want RHEL boot support
-for release in 8 9 ;
+for release in 8 9 10;
 do
   for arch in x86_64 aarch64 ppc64le; 
   do
