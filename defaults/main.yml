@@ -32,13 +32,13 @@ boot_tftpd: True
 # We can then also add RHEL in the boot_pxe_entries list below (through inventory)
 boot_pxe_rhel_support: False
 
-# Default vnc password if we want to start inst.vnc for pxe installs
+# Default vnc (or rdp starting from el10) password if we want to start inst.vnc/inst.rdp for pxe installs
 boot_pxe_vncpass: laix4eeR
 boot_pxe_entries:
   - dist: CentOS
-    release: 9-stream
+    release: 10-stream
     arch: x86_64
-    vnc: true
+    rdp: true
   - dist: CentOS
     release: 9-stream
     arch: x86_64
