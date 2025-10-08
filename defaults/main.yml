@@ -51,7 +51,7 @@ boot_pxe_source_files:
   - source: http://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/EFI/BOOT/grubx64.efi
     dest: /var/lib/tftpboot/grubx64.efi
   - source: http://mirror.stream.centos.org/9-stream/BaseOS/aarch64/os/EFI/BOOT/BOOTAA64.EFI
-    dest: /var/lib/tftpboot/shimx64.efi
+    dest: /var/lib/tftpboot/shimaa64.efi
   - source: http://mirror.stream.centos.org/9-stream/BaseOS/aarch64/os/EFI/BOOT/grubaa64.efi
     dest: /var/lib/tftpboot/grubaa64.efi
 
