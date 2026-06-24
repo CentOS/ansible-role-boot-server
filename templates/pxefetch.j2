@@ -2,7 +2,7 @@
 # This part is for CentOS versions and we'll just point to mirror.stream.centos.org to download content
 for release in 9-stream 10-stream;
 do
-  for arch in i386 x86_64 aarch64 ppc64le; 
+  for arch in x86_64 aarch64 ppc64le; 
   do
     for file in vmlinuz initrd.img;
     do
@@ -16,7 +16,7 @@ do
       fi
  
 	full_path="http://mirror.stream.centos.org/${release}/BaseOS/${arch}/os/${pxe_path}/${file}"
-     curl --silent -O ${full_path}
+     curl -L --silent -O ${full_path}
      popd > /dev/null
     done
   done
@@ -46,7 +46,7 @@ do
       else
 	full_path="{{ rhel_deploy_mirror_url }}/${release}/${arch}/${pxe_path}/${file}"
       fi
-     curl --silent -O ${full_path}
+     curl -L --silent -O ${full_path}
      popd > /dev/null
     done
   done

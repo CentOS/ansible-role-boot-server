@@ -1,4 +1,14 @@
-# Variables specific to CentOS 8
+---
+# Legacy DHCP packages for CentOS 8
 dhcp_pkgs:
   - dhcp-client
   - dhcp-server
+
+# Service name for legacy dhcpd
+dhcp_service: dhcpd
+
+# Configuration path for legacy dhcpd
+dhcp_config_path: /etc/dhcp/dhcpd.conf
+
+# Use legacy dhcpd
+use_kea: false

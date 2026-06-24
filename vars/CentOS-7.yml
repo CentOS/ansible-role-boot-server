@@ -1,3 +1,13 @@
-# Variables specific to CentOS 7 
+---
+# Legacy DHCP packages for CentOS 7
 dhcp_pkgs:
   - dhcp
+
+# Service name for legacy dhcpd
+dhcp_service: dhcpd
+
+# Configuration path for legacy dhcpd
+dhcp_config_path: /etc/dhcp/dhcpd.conf
+
+# Use legacy dhcpd
+use_kea: false

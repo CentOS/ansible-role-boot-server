@@ -1,7 +1,12 @@
-# Defaults handlers for role boot-server
+---
 - name: restart_dhcpd
   service:
     name: dhcpd
+    state: restarted
+
+- name: restart_kea_dhcp4
+  service:
+    name: kea-dhcp4
     state: restarted
 
 - name: pxe_fetch_files

@@ -1,1 +1,14 @@
-CentOS-9.yml
+---
+# Legacy DHCP packages for RHEL 9
+dhcp_pkgs:
+  - dhcp-client
+  - dhcp-server
+
+# Service name for legacy dhcpd
+dhcp_service: dhcpd
+
+# Configuration path for legacy dhcpd
+dhcp_config_path: /etc/dhcp/dhcpd.conf
+
+# Use legacy dhcpd
+use_kea: false

@@ -39,10 +39,9 @@
     - efi
 
 - name: Downloading required EFI boot files
-  get_url:
-    url: "{{ item.source }}"
-    dest: "{{ item.dest }}"
-    mode: 0644
+  shell:
+    chdir: /var/lib/tftpboot/
+    cmd: "curl -L -O {{ item.source }}"
   with_items: "{{ boot_pxe_source_files }}"
   tags:
     - efi

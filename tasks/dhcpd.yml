@@ -1,19 +1,42 @@
-# Included tasks for dhcpd
-- name: Installing dhcp pkgs
+---
+- name: Install DHCP packages
   yum:
     name: "{{ dhcp_pkgs }}"
     state: installed
+  tags:
+    - pkgs
 
-- name: Configuring dhcpd
+- name: Configure legacy dhcpd
   template:
     src: dhcpd.conf.j2
-    dest: /etc/dhcp/dhcpd.conf
-    mode: 0644  
+    dest: "{{ dhcp_config_path }}"
+    mode: 0644
   notify: restart_dhcpd
+  when: not use_kea | default(false)
   tags:
     - config
-- name: Ensuring dhcpd is enabled and running
+
+- name: Configure Kea DHCP
+  template:
+    src: kea-dhcp4.conf.j2
+    dest: "{{ dhcp_config_path }}"
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart_kea_dhcp4
+  when: use_kea | default(false)
+  tags:
+    - config
+
+- name: Validate Kea configuration
+  command: kea-dhcp4 -t "{{ dhcp_config_path }}"
+  changed_when: false
+  when: use_kea | default(false)
+  tags:
+    - config
+
+- name: Ensure DHCP service is started and enabled
   service:
-    name: dhcpd
+    name: "{{ dhcp_service }}"
     state: started
-    enabled: True
+    enabled: yes
